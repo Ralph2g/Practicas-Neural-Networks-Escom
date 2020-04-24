@@ -1,0 +1,1 @@
+Epocas pendientes: 16Valor de W[1]: -7 Valor del Umbral--: [-5]Aprendizaje correcto

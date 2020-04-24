@@ -1,0 +1,1 @@
+Epocas pendientes: 85234Entrada w[1] = 2Entrada w[2] = 3Entrada w[3] = 3Entrada w[4] = 3Umbral=10

@@ -1,0 +1,1 @@
+Epocas pendientes: 11Entrada w[1] = 5Entrada w[2] = 3Entrada w[3] = 2Entrada w[4] = 2Umbral=1
