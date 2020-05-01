@@ -1,15 +1,19 @@
 clearvars
 epochMax = 5;
 Eepoch = 0.001;
-alpha = 0.04;
+alpha = 0.18;
 flag = 1;
 
 while flag == 1
     disp("Hola, Bienvenido a la red Adaline\n");
     opt = input('Seleccione 0 Modo REGRESOR 1 modo CLASIFICADOR otro SALIR\n');
+    disp('Valor de Alpha:');
+    disp(alpha);
+    disp('Valor de Eepoch');
+    disp(Eepoch);
     if opt == 0
         disp('Selecciono la red en modo REGRESOR');
-        epochMax = input('Introduzca el numero de epochMax\n')
+        epochMax = input('Introduzca el numero de epochMax\n');
         data = load('codificador12bits.txt');
         X = data(:,1:end-1);
         y = data(:,end);
@@ -87,8 +91,8 @@ while flag == 1
         load target.txt
         load target_XOR.txt
         load target_2.txt
-        X = input_p_2;
-        y = target_2;
+        X = input_XOR;
+        y = target_XOR;
         [m,R] = size(X);%R = rasgos
         S = size(y,2);%S = neuronas
         num_cls = m/2;
@@ -101,7 +105,6 @@ while flag == 1
         b = -1 + 2.*rand(S,1);
         %Aqui empieza el aprendizaje
         %Solicitamos el numero de iteraciones
-        CU=0;
         epochMax=input('Ingrese el numero de MAX_EPOCH:');
         e = zeros(m,S);
         a = zeros(m,S);
