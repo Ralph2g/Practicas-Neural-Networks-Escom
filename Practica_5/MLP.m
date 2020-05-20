@@ -2,31 +2,29 @@ clear ; close all; clc
 
 disp("Hola,  bienvenido al MLP  de Rafael Garcia Garcia");
 disp("Antes de iniciar nuestra red neuronal necesitamos algunos datos...");
-disp();
+d_pred = input("(Presione 1 para usar los predeterminados)\n",'s');
+if d_pred ~= "1"
+    %Datos de entrada p t rango
+    [X_all,t,rang] = introducir_val_1();
+    %Separar el dataset en 3 subconjuntos (3 p y 3 t)
+    [p,pval,ptest,t,tval,ttest] = div_dataset(X_all,t);
+    %Entrada de vectores de la arquitectura
+    % max 2 capas ocultas y 10 neuronas
+    [v1,v2] = introducir_vec();
+    %Introduce alpha entre 1x10 -2 a 1x10 .4
+    [alpha,epochMax,eepoch] introducir_val_2();
+    alpha = input("Introduzca alpha \n()\n");
+    %introduce epochMax 
 
-%Datos de entrada p t
+    %introduce eepoch 0.0001 a 0.00001
 
-%Indicación del rango de la señal [-2 2]
+    % epochval -> 10% de epochmax.
 
-%Separar el dataset en 3 subconjuntos
+    % Nunval (Numero de veces que se pueda equivocar)
 
-%Función que reciba el vector original de datos y regrese 3 vectores
-
-%Entrada de vectores de la arquitectura
-
-% max 2 capas ocultas y 10 neuronas
-
-%Introduce alpha entre 1x10 -2 a 1x10 .4
-
-%introduce epochMax 
-
-%introduce eepoch 0.0001 a 0.00001
-
-% epochval -> 10% de epochmax.
-
-% Nunval (Numero de veces que se pueda equivocar)
-
-
+else
+    
+end
 %Ejecución escalonada (max 300 epoc)
 
     % Preg si desea continuar  o un nuevo aprendizaje
