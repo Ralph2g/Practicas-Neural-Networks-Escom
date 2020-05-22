@@ -6,7 +6,7 @@ d_pred = input("(Presione 1 para usar los predeterminados)\n",'s');
 if d_pred ~= "1"
     %Datos de entrada p t rango
     [X_all,t,rang] = introducir_val_1();
-    R = size(X_all,2);
+    R = size(x_all,2);
     %Separar el dataset en 3 subconjuntos (3 p y 3 t)
     [p,pval,ptest,t,tval,ttest] = div_dataset(X_all,t);
     %Entrada de vectores de la arquitectura
@@ -15,7 +15,27 @@ if d_pred ~= "1"
     %Introduce alpha entre 1x10 -2 a 1x10 .4
     [alpha,epochMax,eepoch,epochval,numVal] = introducir_val_2();
 else
-    load('config.mat');
+    %Datos de entrada p t rango
+    X_all = load("01_Polinomio_Entrada.txt");
+    t = load("01_Polinomio_Target.txt");
+    rang = [-2,2];
+    %Separar el dataset en 3 subconjuntos (3 p y 3 t)
+    [p,pval,ptest,t,tval,ttest] = div_dataset(X_all,t);
+    %Entrada de vectores de la arquitectura
+    % max 2 capas ocultas y 10 neuronas
+    v1 =[3];
+    %v1 =[1 2 3 1];
+    v2= [2];
+    %v2 = [3,2,1];
+    M = size(v1,2)+1;
+    Mm = 0:M-1;
+    v1 = [R v1 1];
+    v2 = [v2 1];
+    alpha = .01;
+    epochMax = 300;
+    eepoch = 0.0009;
+    epochval = round(epochMax*.1);
+    numVal = 3;
 end
 %Ejecución escalonada (max 300 epoc)
 
