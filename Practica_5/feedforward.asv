@@ -1,0 +1,10 @@
+function [a] = feedforward(W,p,a,b,f)
+    switch f
+        case 1
+             a = purelin(W*a(i,:)'+b_s)';
+        case 2
+        
+        case 3
+            
+    end
+end

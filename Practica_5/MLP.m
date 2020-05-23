@@ -17,6 +17,13 @@ if d_pred ~= "1"
 else
     load('config.mat');
 end
+disp("Perfecto, ya acabamos de cargar la información necesaria para trabajar");
+disp("Ahora dinos que deseas realizar:");
+modo = 0;
+while ~( (modo == 1 ) || (modo == 2))
+    fprintf("\n 1. Continuar aprendizaje\n 2. Nuevo entrenamiento")
+    modo = input("\n");
+end
 %Ejecución escalonada (max 300 epoc)
 
     % Preg si desea continuar  o un nuevo aprendizaje
