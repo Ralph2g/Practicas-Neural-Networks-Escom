@@ -25,7 +25,7 @@ a_1 = zeros(m,2);
 a_2 = zeros(m,1);
 error = 1;
 Eepoch = 0.001;
-maxEpoch = 30;
+maxEpoch = 100;
 
 for e = i :maxEpoch
     %Propagación hacia adelante
@@ -40,7 +40,11 @@ for e = i :maxEpoch
     disp(error);
     if error>Eepoch
         for i = 1:m
-            f_n_1 = eye(2).*(a_1(i)');
+            f_n_1 = eye(2);
+            for j = 1:2
+                f_n_1(j,j) = ((1 - a_1(i,j)).* a_1(i,j));
+            end
+            %f_n_1 = eye(2).*( (1-a_1(i)').*(a_1(i)') );
             s_2 = -2.*(1).*( g_p(i)-a(i));
             s_1 = (f_n_1*W_2')*s_2;% 2x2 - 1x2 - 1x1
             W_2 = W_2 - alpha.*(s_2*a_1(i,:));
