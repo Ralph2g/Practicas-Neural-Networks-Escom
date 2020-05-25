@@ -1,4 +1,0 @@
-function [f_d] = derivate(f,S,a)
-    switch
-        case 1
-end 
