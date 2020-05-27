@@ -218,18 +218,20 @@ if activate
     fprintf(fileID,"\n b_2:\n");
     fprintf(fileID,'%f ',b_2);
     
-    fprintf(fileID,"\n W3:\n");
+    fprintf(fileID,"\n W2:\n");
     fprintf(fileID,'%f ',W_s);
-    fprintf(fileID,"\n b_3:\n");
+    fprintf(fileID,"\n b_2:\n");
     fprintf(fileID,'%f ',b_s);
 else
     fprintf(fileID,"\n W2:\n");
     fprintf(fileID,'%f ',W_s);
     fprintf(fileID,"\n b_2:\n");
-    fprintf(fileID,'%f ',b_s); 
+    fprintf(fileID,'%f ',b_s);
+    fprintf(fileID,"\n Vector de salida a:\n"); 
 end
-fprintf(fileID,'%f\n',t_error);
 
+
+fprintf(fileID,'%f\n',t_error);
 disp("Error final")
 disp(t_error);
 disp("Valores de pesos finales:");
