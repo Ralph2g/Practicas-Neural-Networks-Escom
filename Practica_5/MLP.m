@@ -111,6 +111,7 @@ for  e = epocaActual : epochMax
         if (t_error<=eepoch) || (isnan(t_error))
             bandera =1;
         end
+        %Se guardan valores de pesos y bias
     else %============= Si es epoca de validación =============
         %Se propaga hacia adelante el conjunto de pruebas
         for i = 1 : m_val
@@ -141,11 +142,9 @@ for  e = epocaActual : epochMax
         val_error_anterior = val_error;
         %Si no se continua con otra epoca se recomienda iniciar nuevo
         %experimento
-        
+        guardar_W_b(W_1,W_2,W_s,b_1,b_2,b_s);
         %Se guarda error de entrenamiento y el error de aprendizaje 
         guardar_error(t_error,val_error,e);
-        %Se guardan valores de pesos y bias
-        guardar_W_b(W_1,W_2,W_s,b_1,b_2,b_s);
     end
     
     if bandera == 1
@@ -204,13 +203,13 @@ legend('Salida [a] MLP','Salida [pTest] MLP','ytest')
 hold off;
 
 %pesos_y_bias_finales.txt con el mejor resultado con diversas arquitecturas
-fileID = fopen('exp.txt','a+');
+fileID = fopen('exp.txt','w');
 fprintf(fileID,"Error final\n");
-fprintf(fileID,'%f\n',error);
+fprintf(fileID,'%f\n',t_error);
 fprintf(fileID,"Valores de pesos finales:\n");
 fprintf(fileID,"W1:\n");
 fprintf(fileID,'%f ',W_1);
-fprintf(fileID,"b_1:\n");
+fprintf(fileID,"\n b_1:\n");
 fprintf(fileID,'%f ',b_1);
 if activate
     fprintf(fileID,"\n W2:\n");
@@ -228,7 +227,8 @@ else
     fprintf(fileID,"\n b_2:\n");
     fprintf(fileID,'%f ',b_s); 
 end
-fprintf(fileID,'%f\n',t_error);
+fprintf(fileID,"\n Vector de salida a:\n");
+fprintf(fileID,'%f ',a);
 
 disp("Error final")
 disp(t_error);

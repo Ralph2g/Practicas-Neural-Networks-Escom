@@ -35,7 +35,7 @@ function [] = graficar_evolucion(bool)
         xlabel("Iteración");
         ylabel("Valor de b^2");
         title("b^2");
-        plot(b_1);
+        plot(b_2);
         lgd = legend;
         title(lgd,'Valores de cada b^2_i');
         
