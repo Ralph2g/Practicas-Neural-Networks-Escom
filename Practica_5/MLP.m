@@ -2,60 +2,63 @@ clear ; close all; clc
 W_2 = 0;
 b_2 = 0;
 disp("Hola,  bienvenido al MLP  de Rafael Garcia Garcia");
-disp("Antes de iniciar nuestra red neuronal necesitamos algunos datos...");
-d_pred = input("(Presione 1 para usar los predeterminados)\n",'s');
-if d_pred ~= "1"
-    %Datos de entrada p t rango
-    [X_all,t,rang] = introducir_val_1();
-    R = size(X_all,2);
-    %Separar el dataset en 3 subconjuntos (3 p y 3 t)
-    [p,pval,ptest,t,tval,ttest] = div_dataset(X_all,t);
-    %Entrada de vectores de la arquitectura
-    % max 2 capas ocultas y 10 neuronas
-    [v1,v2,M,Mm] = introducir_vec(size(p,1));
-    %Introduce alpha entre 1x10 -2 a 1x10 .4
-    [alpha,epochMax,eepoch,epochval,numVal] = introducir_val_2();
-else
-    load('config.mat');
-end
-
-disp("Perfecto, ya acabamos de cargar la información necesaria para trabajar");
-disp("Ahora dinos que deseas realizar:");
+disp("Dinos que deseas realizar:");
 modo = 0;
 while ~( (modo == 1 ) || (modo == 2))
     fprintf("\n 1. Continuar aprendizaje\n 2. Nuevo entrenamiento")
     modo = input("\n");
 end
-activate = size(v2,2)>2;
+
 %Ejecución escalonada (max 300 epoc)
 if modo == 2
+    disp("Antes de iniciar nuestra red neuronal necesitamos algunos datos...");
+    d_pred = input("(Presione 1 para usar los predeterminados)\n",'s');
+    if d_pred ~= "1"
+        %Datos de entrada p t rango
+        [X_all,t,rang] = introducir_val_1();
+        R = size(X_all,2);
+        %Separar el dataset en 3 subconjuntos (3 p y 3 t)
+        [p,pval,ptest,t,tval,t_test] = div_dataset(X_all,t);
+        %Entrada de vectores de la arquitectura
+        % max 2 capas ocultas y 10 neuronas
+        [v1,v2,M,Mm] = introducir_vec(size(p,1));
+        %Introduce alpha entre 1x10 -2 a 1x10 .4
+        [alpha,epochMax,eepoch,epochval,numVal] = introducir_val_2();
+    else
+        load('config.mat');
+    end
+    activate = size(v2,2)>2;
+    disp("Perfecto, ya acabamos de cargar la información necesaria para trabajar");
         %%Nuevo aprendizaje
         %Iniciar valores MLP aleatoriamente 
         %1 capa oculta
         limpiar_archivos();
-        W_1 = -1 + (1+1)*rand(v1(2),v1(1));
-        b_1 = -1 + (1+1)*rand(v1(2),1);
+        W_1 = rang(1) + (rang(2)-rang(1))*rand(v1(2),v1(1));
+        b_1 = rang(1) + (rang(2)-rang(1))*rand(v1(2),1);
         a_0 = p;
         a_1 = zeros(m,v1(2));
         %2 capas ocultas
         if activate
             %Capa de salida
-            W_2 = -1 + (1+1)*rand(v1(end-1),v1(end-2));
-            b_2 = -1 + (1+1)*rand(v1(end-1),1);
+            W_2 = rang(1) + (rang(2)-rang(1))*rand(v1(end-1),v1(end-2));
+            b_2 = rang(1) + (rang(2)-rang(1))*rand(v1(end-1),1);
             a_2 = zeros(m,v1(end-1));
         end
         a_s = zeros(m,v1(end));
-        W_s = -1 + (1+1)*rand(v1(end),v1(end-1)); 
-        b_s = -1 + (1+1)*rand(v1(end),1); 
+        W_s = rang(1) + (rang(2)-rang(1))*rand(v1(end),v1(end-1)); 
+        b_s = rang(1) + (rang(2)-rang(1))*rand(v1(end),1); 
         epocaActual = 2;
         %Se inicializan todos los valores de pesos y bias de la RNA con valores aleatorios entre -1 y +1
 else
-        %%Retomar aprendizaje
-        aux = input('Ingrese el nombre del archivo donde están los pesos y bias (terminación .mat)\n',"s");
-        %Pide archivos con parametros
-        load(aux);
-        epocaActual = epocaActual +1;
+        load('datos.mat');
+        epocaActual = epochMax + 1;
+        disp("El anterior aprendizaje llegó hasta la epoca:");
+        aux = epocaActual-1;
+        disp(epochMax);
+        epochMax = input('Ingrese el número de epocas adicionales que desea realizar \n');
+        epochval = floor(linspace(round(epochMax*.1),epochMax,10)) + (aux);
         %Archivo de Valores Finales Diferente al archivo que almacena
+        epochMax = epochMax + aux;
         %evolución de pesos y bias 3000 epc x 100 datos = graf 300,000
 end
 %%=======================ENTRENAMIENTO=====================%%
@@ -83,7 +86,7 @@ for  e = epocaActual : epochMax
             end
             a(i) = a_s;
             %Error
-            error(i) = sum((a_s - t(i)).^2)/v1(end);
+            error(i) = sum( (a_s - t(i)).^2 )/v1(end);
             %verificación del error
             %Se verifican criterios de finalización (epochmac o error)
             %Se aplican reglas de aprendizaje
@@ -125,7 +128,7 @@ for  e = epocaActual : epochMax
                     end
                     a_val(i) = a_s;
                     %Error de validación
-                    error_val(i) = sum((a_s - tval(i)).^2)/v1(end);
+                    error_val(i) = sum( (a_s - tval(i)).^2 )/v1(end);
         end
         %Se calcula el error de prueba errorTest [0.001 0.0001]
         val_error = sum(error_val)/m_val;
@@ -160,6 +163,7 @@ for  e = epocaActual : epochMax
     end
     
 end
+save('datos.mat')
 %%=======================PRUEBA DE GENERALIZACIÓN================
 m_test = size(ptest,1);
 error_test = zeros(m_test,1);
@@ -176,7 +180,7 @@ for i = 1 : m_test
             end
             a_test(i) = a_s;
             %Error
-            error_test(i) = sum((a_s - ttest(i)).^2)/v1(end);
+            error_test(i) = sum((a_s - t_test(i)).^2)/v1(end);
 end
 %Se calcula el error de prueba errorTest [0.001 0.0001]
 test_error = sum(error_test)/m_test;
@@ -193,17 +197,11 @@ graficar_error();
 %Grafica de la evolución de los pesos y de los bias  graficando cada
 %del MLP (Si hay dos capas serán 2 gráficas)
 graficar_evolucion(activate);
+save('datos_finales.mat')
 %Graficar Ytest(Circulos sin relleno) vs salida MLP (USar Cruz)
-figure;
-hold on;
-plot(p,a, 'yx');
-plot(ptest,a_test, 'bx');
-plot(ptest,ttest, 'ro');
-legend('Salida [a] MLP','Salida [pTest] MLP','ytest')
-hold off;
-
+graficar_fun();
 %pesos_y_bias_finales.txt con el mejor resultado con diversas arquitecturas
-fileID = fopen('exp.txt','w');
+fileID = fopen('Valores_finales_pesos_y_bias.txt','w');
 fprintf(fileID,"Error final\n");
 fprintf(fileID,'%f\n',t_error);
 fprintf(fileID,"Valores de pesos finales:\n");
