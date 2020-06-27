@@ -2,6 +2,12 @@ clear ; close all; clc
 W_2 = 0;
 b_2 = 0;
 disp("Hola,  bienvenido al MLP  de Rafael Garcia Garcia");
+disp("Antes de iniciar me gustaria saber si quieres introducir una ecuación?");
+fprintf("\n 1. Introducir ecuacion \n 2. Valores predeterminados");
+ecuacion = input("\n");
+if ecuacion == 1
+    generar_polinomio_y_target();
+end
 disp("Dinos que deseas realizar:");
 modo = 0;
 while ~( (modo == 1 ) || (modo == 2))

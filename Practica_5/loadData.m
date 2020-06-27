@@ -1,15 +1,16 @@
 clear ; close all; clc
-X_all = load("01_Polinomio_Entrada.txt");
-t = load("01_Polinomio_Target.txt");
+X_all = load("Polinomio_Entrada.txt");
+t = load("Polinomio_Target.txt");
 %X_all = linspace(-2,2,100)';
 %t = 1+sin((pi/4).*X_all);
-rang = [-2,2];
+rang = [-1,1];
 R = size(X_all,2);
 [p,pval,ptest,t,tval,t_test] = div_dataset(X_all,t);
+plot(ptest,t_test, 'yx');
 m = length(p);
 %v1 =[2];
-    v1 =[7 7];
-%v2= [2];
+    v1 =[8 5];
+%v2= [3];
     v2 = [2,2];
 M = size(v1,2)+1;
 Mm = 0:M-1;
